@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>WpfUiGallery</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="LivetCask.Behaviors" Version="3.2.1" />
+    <PackageReference Include="Prism.DryIoc" Version="7.2.0.1422" />
+    <PackageReference Include="ReactiveProperty" Version="6.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HalationGhostWpfViewModels\HalationGhostWpfViewModels.csproj" />
+    <ProjectReference Include="..\StartUpView\StartUpView.csproj" />
+  </ItemGroup>
+</Project>
