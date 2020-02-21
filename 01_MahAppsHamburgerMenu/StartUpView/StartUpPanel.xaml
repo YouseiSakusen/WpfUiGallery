@@ -18,7 +18,7 @@
 		<Grid Grid.Column="0">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="180"/>
-				<RowDefinition/>
+				<RowDefinition Height="140"/>
 			</Grid.RowDefinitions>
 			<GroupBox Grid.Row="0"
 				  Header="HamburgerMenu プロパティ"
@@ -30,25 +30,38 @@
 						<RowDefinition Height="40"/>
 					</Grid.RowDefinitions>
 					<ComboBox Grid.Row="0"
-						  md:HintAssist.Hint="DisplayMode"
-						  md:HintAssist.FloatingScale="1.2"
-						  md:HintAssist.FloatingOffset="0, -30"
-						  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-						  ItemsSource="{Binding Source={hg:EnumBindingSource EnumType={x:Type metro:SplitViewDisplayMode}}}"
-						  SelectedItem="{Binding HamburgerMenuDisplayMode.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+							  md:HintAssist.Hint="DisplayMode"
+							  md:HintAssist.FloatingScale="1.2"
+							  md:HintAssist.FloatingOffset="0, -30"
+							  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+							  ItemsSource="{Binding Source={hg:EnumBindingSource EnumType={x:Type metro:SplitViewDisplayMode}}}"
+							  SelectedItem="{Binding HamburgerMenuDisplayMode.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 					<StackPanel Orientation="Horizontal" Grid.Row="1">
 						<TextBlock VerticalAlignment="Center"
-							   Margin="0, 0, 20, 0"
-							   Text="HamburgerMenu 開閉" />
+								   Margin="0, 0, 20, 0"
+								   Text="HamburgerMenu 開閉" />
 						<ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}"
-								  IsChecked="{Binding IsHamburgerMenuPanelOpened.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+									  IsChecked="{Binding IsHamburgerMenuPanelOpened.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 					</StackPanel>
 				</Grid>
 			</GroupBox>
 			<GroupBox Grid.Row="1" Margin="20, 10, 0, 20"
 					  Header="TransitioningContentControl プロパティ"
 					  Style="{DynamicResource MaterialDesignCardGroupBox}">
-				
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="60"/>
+						<RowDefinition/>
+						<RowDefinition/>
+					</Grid.RowDefinitions>
+					<ComboBox Grid.Row="0"
+							  md:HintAssist.Hint="Transition"
+							  md:HintAssist.FloatingScale="1.2"
+							  md:HintAssist.FloatingOffset="0, -30"
+							  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+							  ItemsSource="{Binding Source={hg:EnumBindingSource EnumType={x:Type metro:TransitionType}}}"
+							  SelectedItem="{Binding ContentControlTransition.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+				</Grid>
 			</GroupBox>
 		</Grid>
 		<TextBlock Grid.Column="1" Text="Start Up" Margin="0, 20, 10, 0"

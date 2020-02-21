@@ -13,6 +13,8 @@ namespace MahAppsHamburgerMenu
 	/// </summary>
 	public partial class App
 	{
+		/// <summary>ModuleCatalogを設定します。</summary>
+		/// <param name="moduleCatalog">IModuleCatalog。</param>
 		protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
 		{
 			moduleCatalog.AddModule<StartUpViewModule>();
@@ -20,6 +22,7 @@ namespace MahAppsHamburgerMenu
 			moduleCatalog.AddModule<OptionViewsModule>();
 		}
 
+		/// <summary>ViewModelLocatorを設定します。</summary>
 		protected override void ConfigureViewModelLocator()
 		{
 			base.ConfigureViewModelLocator();
@@ -34,11 +37,15 @@ namespace MahAppsHamburgerMenu
 			});
 		}
 
+		/// <summary>Shellを作成します。</summary>
+		/// <returns>Shellを表すWindow。</returns>
 		protected override Window CreateShell()
 		{
 			return Container.Resolve<MainWindow>();
 		}
 
+		/// <summary>DIコンテナへオブジェクトを登録します。</summary>
+		/// <param name="containerRegistry">DIコンテナ登録用のIContainerRegistry。</param>
 		protected override void RegisterTypes(IContainerRegistry containerRegistry)
 		{
 			containerRegistry.RegisterSingleton<IMainWindowService, MainWindowService>();

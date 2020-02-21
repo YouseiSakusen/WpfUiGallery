@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using CommonServiceLocator;
+﻿using CommonServiceLocator;
 using MahApps.Metro.Controls;
 using Prism.Regions;
 

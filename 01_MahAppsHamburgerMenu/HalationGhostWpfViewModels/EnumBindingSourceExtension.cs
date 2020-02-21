@@ -3,10 +3,13 @@ using System.Windows.Markup;
 
 namespace HalationGhost.WinApps
 {
+	/// <summary>enum値を生成するためのマークアップ拡張。</summary>
 	public class EnumBindingSourceExtension : MarkupExtension
 	{
+		/// <summary>対象のenum型を表します。</summary>
 		private Type _enumType;
 
+		/// <summary>生成するenumの型を取得・設定します。</summary>
 		public Type EnumType
 		{
 			get { return _enumType; }
@@ -26,6 +29,9 @@ namespace HalationGhost.WinApps
 			}
 		}
 
+		/// <summary>生成した値を取得します。</summary>
+		/// <param name="serviceProvider">マークアップ拡張機能のサービスを提供できるサービス プロバイダーのヘルパー。</param>
+		/// <returns>生成した値を表すobject。</returns>
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
 			if (null == this._enumType)
@@ -42,8 +48,11 @@ namespace HalationGhost.WinApps
 			return tempArray;
 		}
 
+		/// <summary>デフォルトコンストラクタ。</summary>
 		public EnumBindingSourceExtension() { }
 
+		/// <summary>コンストラクタ。</summary>
+		/// <param name="enumType">生成するenumの型を表すType。</param>
 		public EnumBindingSourceExtension(Type enumType)
 			=> this.EnumType = enumType;
 	}

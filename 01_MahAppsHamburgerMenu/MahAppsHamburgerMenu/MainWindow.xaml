@@ -69,7 +69,7 @@
 				<metro:TransitioningContentControl x:Name="ContentRegion"
 												   Grid.Row="1"
 												   prism:RegionManager.RegionName="ContentRegion"
-												   Transition="RightReplace"/>
+												   Transition="{Binding ContentControlTransition.Value}"/>
 			</Grid>
 		</metro:HamburgerMenu.Content>
 	</metro:HamburgerMenu>

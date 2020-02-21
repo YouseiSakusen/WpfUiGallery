@@ -10,27 +10,40 @@ using Reactive.Bindings.Extensions;
 
 namespace MahAppsHamburgerMenu
 {
+	/// <summary>MainWindowのVM</summary>
 	public class MainWindowViewModel : HalationGhostViewModelBase
 	{
 		#region プロパティ
 
+		/// <summary>TransitioningContentControlのTransitionを取得・設定します。</summary>
+		public ReadOnlyReactivePropertySlim<TransitionType> ContentControlTransition { get; }
+
+		/// <summary>HamburgerMenu.IsPaneOpenを取得・設定します。</summary>
 		public ReactivePropertySlim<bool> IsHamburgerMenuPanelOpened { get; set; }
 
-		public ReadOnlyReactivePropertySlim<SplitViewDisplayMode> HamburgerMenuDisplayMode { get; set; }
+		/// <summary>HamburgerMenu.DisplayModeを取得・設定します。</summary>
+		public ReadOnlyReactivePropertySlim<SplitViewDisplayMode> HamburgerMenuDisplayMode { get; }
 
+		/// <summary>HamburgerMenuで選択しているメニュー項目を取得・設定します。</summary>
 		public ReactivePropertySlim<HamburgerMenuItemViewModel> SelectedMenu { get; set; }
 
+		/// <summary>HamburgerMenuで選択しているメニュー項目のインデックスを取得・設定します。</summary>
 		public ReactivePropertySlim<int> SelectedMenuIndex { get; set; }
 
+		/// <summary>HamburgerMenuで選択しているオプションメニュー項目を取得・設定します。</summary>
 		public ReactivePropertySlim<HamburgerMenuItemViewModel> SelectedOption { get; set; }
 
+		/// <summary>HamburgerMenuで選択しているオプションメニュー項目のインデックスを取得・設定します。</summary>
 		public ReactivePropertySlim<int> SelectedOptionIndex { get; set; }
 
+		/// <summary>HamburgerMenuのメニュー項目を取得します。</summary>
 		public ObservableCollection<HamburgerMenuItemViewModel> MenuItems { get; } = new ObservableCollection<HamburgerMenuItemViewModel>();
 
+		/// <summary>HamburgerMenuのオプションメニュー項目を取得します。</summary>
 		public ObservableCollection<HamburgerMenuItemViewModel> OptionMenuItems { get; } = new ObservableCollection<HamburgerMenuItemViewModel>();
 
 		private string _title = "Prism Application";
+		/// <summary>Windowのタイトルを取得・設定します。</summary>
 		public string Title
 		{
 			get { return _title; }
@@ -39,10 +52,14 @@ namespace MahAppsHamburgerMenu
 
 		#endregion
 
+		/// <summary>タイトルバー上のHomeボタンのCommand。</summary>
 		public ReactiveCommand HomeCommand { get; }
 
+		/// <summary>ContentRenderedイベントハンドラ。</summary>
 		public ReactiveCommand ContentRendered { get; }
 
+		/// <summary>HamburgerMenuのメニュー項目選択通知イベントハンドラ。</summary>
+		/// <param name="item">選択したメニュー項目を表すHamburgerMenuItemViewModel。</param>
 		private void onSelectedMenu(HamburgerMenuItemViewModel item)
 		{
 			if (item == null)
@@ -53,6 +70,7 @@ namespace MahAppsHamburgerMenu
 			this.regionManager.RequestNavigate("ContentRegion", item.NavigationPanel);
 		}
 
+		/// <summary>タイトルバー上のHomeボタンのコマンドハンドラ。</summary>
 		private void onHome()
 		{
 			this.SelectedMenuIndex.Value = -1;
@@ -63,8 +81,12 @@ namespace MahAppsHamburgerMenu
 
 		#region コンストラクタ
 
+		/// <summary>MainWindoサービスを表します。</summary>
 		private IMainWindowService mainWindowService = null;
 
+		/// <summary>デフォルトコンストラクタ。</summary>
+		/// <param name="regionMan">IRegionManager。</param>
+		/// <param name="winService">IMainWindowService。</param>
 		public MainWindowViewModel(IRegionManager regionMan, IMainWindowService winService) : base(regionMan)
 		{
 			this.mainWindowService = winService;
@@ -85,6 +107,9 @@ namespace MahAppsHamburgerMenu
 			this.SelectedOptionIndex = new ReactivePropertySlim<int>(-1)
 				.AddTo(this.disposable);
 
+			this.ContentControlTransition = this.mainWindowService.ContentControlTransition
+				.ToReadOnlyReactivePropertySlim()
+				.AddTo(this.disposable);
 			this.HamburgerMenuDisplayMode = this.mainWindowService.HamburgerMenuDisplayMode
 				.ToReadOnlyReactivePropertySlim()
 				.AddTo(this.disposable);
@@ -100,6 +125,7 @@ namespace MahAppsHamburgerMenu
 				.AddTo(this.disposable);
 		}
 
+		/// <summary>HamburgerMenuのメニュー項目を初期化します。</summary>
 		private void initialilzeMenu()
 		{
 			this.MenuItems.Add(new HamburgerMenuItemViewModel(PackIconFontAwesomeKind.BugSolid, "バグ", "BugPanel"));
