@@ -1,0 +1,180 @@
+﻿<UserControl x:Class="MetroWindowAndControls.MetroWindows.MetroWindowPanel"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+			 xmlns:prism="http://prismlibrary.com/"
+			 xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+			 xmlns:local="clr-namespace:MetroWindowAndControls.MetroWindows"
+			 xmlns:hg="clr-namespace:HalationGhost.WinApps;assembly=HalationGhostWpfViewModels"
+			 mc:Ignorable="d"
+			 d:DesignHeight="600" d:DesignWidth="800"
+			 prism:ViewModelLocator.AutoWireViewModel="True">
+	<UserControl.Resources>
+		<DataTemplate x:Key="BrushItem" DataType="{x:Type local:BrushItemViewModel}">
+			<StackPanel Orientation="Horizontal"
+						Margin="3, 0, 0, 0">
+				<Ellipse Width="12" Height="12"
+						 VerticalAlignment="Center"
+						 Stroke="Black"
+						 Fill="{Binding BrushColor.Value}" />
+				<TextBlock VerticalAlignment="Center"
+						   Margin="5, 0, 0, 0"
+						   Text="{Binding ItemText.Value}" />
+			</StackPanel>
+		</DataTemplate>
+	</UserControl.Resources>
+	<Grid>
+		<Grid Panel.ZIndex="0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="100"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0" Margin="0, 0, 10, 0"
+					   Text="MetroWindow"
+					   HorizontalAlignment="Right"
+					   VerticalAlignment="Top"
+					   FontWeight="Bold"
+					   Style="{StaticResource MaterialDesignHeadline3TextBlock}" >
+				<TextBlock.Foreground>
+					<LinearGradientBrush EndPoint="0.01,1" StartPoint="1,0">
+						<GradientStop Color="{DynamicResource Primary500}"/>
+						<GradientStop Color="White" Offset="1"/>
+					</LinearGradientBrush>
+				</TextBlock.Foreground>
+			</TextBlock>
+			<icon:PackIconControl Grid.Row="1"
+								  HorizontalAlignment="Right"
+								  VerticalAlignment="Bottom"
+								  Width="150"
+								  Height="150"
+								  Kind="{x:Static icon:PackIconMaterialKind.WindowMaximize}" >
+				<icon:PackIconControl.Foreground>
+					<LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
+						<GradientStop Color="{StaticResource Primary500}"/>
+						<GradientStop Color="Transparent"  Offset="1"/>
+					</LinearGradientBrush>
+				</icon:PackIconControl.Foreground>
+			</icon:PackIconControl>
+		</Grid>
+		<Grid Panel.ZIndex="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="0.6*"/>
+				<RowDefinition Height="0.4*"/>
+			</Grid.RowDefinitions>
+			<GroupBox Grid.Row="0"
+					  Header="MetroWindow Properties"
+					  Margin="30, 40, 30, 0">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<StackPanel Grid.Column="0"
+								Orientation="Vertical">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="IgnoreTaskbarOnMaximize"
+							   Width="170"/>
+							<ToggleButton IsChecked="{Binding IgnoreTaskbarOnMaximize.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									Margin="0, 20, 0, 0">
+							<TextBlock Text="IsWindowDraggable" Width="170" />
+							<ToggleButton IsChecked="{Binding IsWindowDraggable.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									Margin="0, 20, 0, 0">
+							<TextBlock Text="WindowTransitionsEnabled" Width="170" />
+							<ToggleButton IsChecked="{Binding WindowTransitionsEnabled.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</StackPanel>
+					</StackPanel>
+					<StackPanel Grid.Column="1"
+								Orientation="Vertical">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="ShowTitleBar" Width="170" />
+							<ToggleButton IsChecked="{Binding ShowTitleBar.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									Margin="0, 20, 0, 0">
+							<TextBlock Text="ShowCloseButton" Width="170" />
+							<ToggleButton IsChecked="{Binding ShowCloseButton.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+										  IsEnabled="{Binding ShowTitleBar.Value, Mode=OneWay}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									Margin="0, 20, 0, 0">
+							<TextBlock Text="ShowMaxRestoreButton" Width="170" />
+							<ToggleButton IsChecked="{Binding ShowMaxRestoreButton.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+										  IsEnabled="{Binding ShowTitleBar.Value, Mode=OneWay}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									Margin="0, 20, 0, 0">
+							<TextBlock Text="ShowMinButton" Width="170" />
+							<ToggleButton IsChecked="{Binding ShowMinButton.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+										  IsEnabled="{Binding ShowTitleBar.Value, Mode=OneWay}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									Margin="0, 20, 0, 0">
+							<TextBlock Text="ShowSystemMenuOnRightClick" Width="170" />
+							<ToggleButton IsChecked="{Binding ShowSystemMenuOnRightClick.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+						</StackPanel>
+					</StackPanel>
+					<StackPanel Grid.Column="2"
+								Orientation="Vertical"
+								Margin="0, 38, 0, 0">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="IsCloseButtonEnabled" Width="170" />
+							<ToggleButton IsChecked="{Binding IsCloseButtonEnabled.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+										  IsEnabled="{Binding IsEnabledCloseEnable.Value, Mode=OneWay}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									Margin="0, 20, 0, 0">
+							<TextBlock Text="IsMaxRestoreButtonEnabled" Width="170" />
+							<ToggleButton IsChecked="{Binding IsMaxRestoreButtonEnabled.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+										  IsEnabled="{Binding IsEnabledMaxEnable.Value, Mode=OneWay}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									Margin="0, 20, 0, 0">
+							<TextBlock Text="IsMinButtonEnabled" Width="170" />
+							<ToggleButton IsChecked="{Binding IsMinButtonEnabled.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+										  IsEnabled="{Binding IsEnableMinEnable.Value, Mode=OneWay}" />
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</GroupBox>
+			<GroupBox Grid.Row="1"
+					  Header="MetroWindow Title Bar Settings"
+					  Margin="30, 10, 30, 25"
+					  Width="400"
+					  HorizontalAlignment="Left"
+					  IsEnabled="{Binding ShowTitleBar.Value, Mode=OneWay}" >
+				<StackPanel Orientation="Vertical">
+					<StackPanel Orientation="Horizontal">
+						<ComboBox md:HintAssist.Hint="TitleAlignment"
+								  md:HintAssist.FloatingScale="1.1"
+								  md:HintAssist.FloatingOffset="0, -23"
+								  Margin="0, 10, 50, 0"
+								  Width="150"
+								  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+								  ItemsSource="{Binding Source={hg:EnumBindingSource EnumType={x:Type HorizontalAlignment}}}"
+								  SelectedValue="{Binding TitleAlignment.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+						<ComboBox md:HintAssist.Hint="TitleCharacterCasing"
+								  md:HintAssist.FloatingScale="1.1"
+								  md:HintAssist.FloatingOffset="0, -23"
+								  Margin="0, 10, 50, 0"
+								  Width="150"
+								  Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+								  ItemsSource="{Binding Source={hg:EnumBindingSource EnumType={x:Type CharacterCasing}}}"
+								  SelectedValue="{Binding TitleCharacterCasing.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal"
+									Margin="0, 40, 0, 0">
+						<TextBlock Text="ShowIconOnTitleBar" Width="170" />
+						<ToggleButton IsChecked="{Binding ShowIconOnTitleBar.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					</StackPanel>
+				</StackPanel>
+			</GroupBox>
+		</Grid>
+	</Grid>
+</UserControl>

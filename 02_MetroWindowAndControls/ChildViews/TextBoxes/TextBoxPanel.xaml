@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="MetroWindowAndControls.TextBoxes.TextBoxPanel"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:prism="http://prismlibrary.com/"
+			 xmlns:icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+			 xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+			 mc:Ignorable="d"
+			 d:DesignHeight="600" d:DesignWidth="800"
+			 prism:ViewModelLocator.AutoWireViewModel="True">
+	<Grid>
+		<Grid Panel.ZIndex="0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="100"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0" Margin="0, 0, 10, 0"
+				   Text="TextBox"
+				   HorizontalAlignment="Right"
+				   VerticalAlignment="Top"
+				   FontWeight="Bold"
+				   Style="{StaticResource MaterialDesignHeadline3TextBlock}">
+				<TextBlock.Foreground>
+					<LinearGradientBrush EndPoint="0.01,1" StartPoint="1,0">
+						<GradientStop Color="{DynamicResource Primary500}"/>
+						<GradientStop Color="White" Offset="1"/>
+					</LinearGradientBrush>
+				</TextBlock.Foreground>
+			</TextBlock>
+			<icon:PackIconControl Grid.Row="1"
+							  HorizontalAlignment="Right"
+							  VerticalAlignment="Bottom"
+							  Width="150"
+							  Height="150"
+							  Kind="{x:Static icon:PackIconModernKind.InterfaceTextbox}" >
+				<icon:PackIconControl.Foreground>
+					<LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
+						<GradientStop Color="{StaticResource Primary500}"/>
+						<GradientStop Color="Transparent"  Offset="1"/>
+					</LinearGradientBrush>
+				</icon:PackIconControl.Foreground>
+			</icon:PackIconControl>
+		</Grid>
+		<Grid Panel.ZIndex="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Column="0"
+						Orientation="Vertical"
+						Margin="20, 10, 0, 0">
+				<TextBox Text="Style指定なし"/>
+				<TextBox Margin="0, 47, 0, 0"
+						 Style="{StaticResource MaterialDesignTextBox}"
+						 Text="MaterialDesignTextBox指定"/>
+				<TextBox Margin="0, 30, 0, 0"
+						 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+						 Text="MaterialDesignFloatingHintTextBox指定" />
+				<TextBox Margin="0, 30, 0, 0"
+						 TextWrapping="Wrap"
+						 Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+						 Text="MaterialDesignOutlinedTextFieldTextBox指定" />
+			</StackPanel>
+			<StackPanel Grid.Column="1"
+						Orientation="Vertical"
+						Margin="20, 10, 0, 0">
+				<TextBox Style="{StaticResource MaterialDesignTextBox}"
+						 md:HintAssist.Hint="ヒント"
+						 md:HintAssist.HelperText="HelperText" />
+				<TextBox Margin="0, 35, 0, 0"
+						 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+						 md:HintAssist.Hint="Flotingするヒント"
+						 md:HintAssist.HelperText="Helperも同時に設定可能"
+						 md:HintAssist.FloatingScale="{Binding FloatingScale.Value, Mode=OneWay}"
+						 md:HintAssist.HintOpacity="{Binding HintOpacity.Value, Mode=OneWay}"
+						 md:HintAssist.FloatingOffset="{Binding FloatingOffset.Value, Mode=OneWay}"/>
+			</StackPanel>
+		</Grid>
+	</Grid>
+</UserControl>
