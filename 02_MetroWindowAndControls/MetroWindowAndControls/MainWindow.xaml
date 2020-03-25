@@ -4,18 +4,15 @@
 				   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
 				   xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
 				   xmlns:prism="http://prismlibrary.com/"
-				   xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
 				   xmlns:rp="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.NETCore"
 				   xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
 				   xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
 				   xmlns:vmBase="clr-namespace:HalationGhost.WinApps;assembly=HalationGhostWpfViewModels"
 				   xmlns:mns="clr-namespace:MetroWindowAndControls.Menus"
 				   prism:ViewModelLocator.AutoWireViewModel="True"
-				   Title="{Binding Title}"
-				   Height="600" Width="800"
+				   Title="{Binding Title}" Height="600" Width="800"
 				   WindowStartupLocation="CenterScreen"
-				   GlowBrush="Black"
-				   BorderThickness="0"
+				   GlowBrush="Black" BorderThickness="0"
 				   Icon="sample-app.ico"
 				   TitleCharacterCasing="{Binding TitleCharacterCasing.Value, Mode=OneWay}"
 				   IgnoreTaskbarOnMaximize="{Binding IgnoreTaskbarOnMaximize.Value, Mode=OneWay}"
@@ -33,25 +30,28 @@
 				   WindowTransitionsEnabled="{Binding WindowTransitionsEnabled.Value, Mode=OneWay}"
 				   ShowIconOnTitleBar="{Binding ShowIconOnTitleBar.Value, Mode=OneWay}">
 	<bh:Interaction.Behaviors>
-		<vmBase:WindowClosingBehavior CanClose="{Binding CanClose.Value, Mode=OneWay}" />
-		<vmBase:SystemMenuBehavior IsVisible="{Binding IsSystemMenuVisible.Value, Mode=OneWay}" />
+		<vmBase:WindowControlBehavior RequestClose="{Binding RequestClose.Value, Mode=OneWay}"
+									  CanClose="{Binding CanClose.Value, Mode=OneWay}"
+									  CanMaxmize="{Binding CanMaxmize.Value, Mode=OneWay}"
+									  CanMinimize="{Binding CanMinimize.Value, Mode=OneWay}"
+									  CanMove="{Binding IsWindowDraggable.Value, Mode=OneWay}"
+									  SystemMenuVisible="{Binding ShowSystemMenuOnRightClick.Value, Mode=OneWay}"
+									  CloseCanceledCallback="{Binding CloseCancel, Mode=OneWay}"/>
 	</bh:Interaction.Behaviors>
 	<bh:Interaction.Triggers>
 		<bh:EventTrigger EventName="ContentRendered">
 			<rp:EventToReactiveCommand Command="{Binding ContentRendered}" />
-		</bh:EventTrigger>
-		<bh:EventTrigger EventName="Closed">
-			<livet:DataContextDisposeAction />
 		</bh:EventTrigger>
 	</bh:Interaction.Triggers>
 	<Window.Resources>
 		<DataTemplate x:Key="MenuData" DataType="{x:Type mns:MetroWindowAndControlsViewModel}">
 			<StackPanel Orientation="Horizontal"
 						IsEnabled="{Binding IsEnabled.Value, Mode=TwoWay}">
-				<iconPacks:PackIconControl Kind="{Binding IconKind.Value}"
+				<iconPacks:PackIconControl Kind="{Binding IconKind.Value, Mode=OneTime}"
 										   Margin="8, 10, 30, 10"
 										   Focusable="False"
-										   Width="32" Height="32" />
+										   Width="32" Height="32"
+										   ToolTip="{Binding ToolTipText.Value, Mode=OneTime}"/>
 				<TextBlock Text="{Binding MenuText.Value}"
 						   VerticalAlignment="Center"
 						   Style="{StaticResource MaterialDesignHeadline6TextBlock}" />

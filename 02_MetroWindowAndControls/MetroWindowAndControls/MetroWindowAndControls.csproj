@@ -13,9 +13,9 @@
     <None Remove="sample-app.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="LivetCask.Behaviors" Version="3.2.1" />
+    <PackageReference Include="LivetCask.Behaviors" Version="3.2.2.2" />
     <PackageReference Include="MahApps.Metro" Version="1.6.5" />
-    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.2.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.5.0" />
     <PackageReference Include="MaterialDesignColors" Version="1.2.2" />
     <PackageReference Include="MaterialDesignThemes" Version="3.0.1" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.1.0" />
@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChildViews\ChildViews.csproj" />
+    <ProjectReference Include="..\HalationGhostMessageBoxService\HalationGhostMessageBoxService.csproj" />
     <ProjectReference Include="..\HalationGhostWpfViewModels\HalationGhostWpfViewModels.csproj" />
     <ProjectReference Include="..\MainWindowServices\MainWindowServices.csproj" />
     <ProjectReference Include="..\OptionViews\OptionViews.csproj" />

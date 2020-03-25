@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows;
+using HalationGhost.WinApps.Services;
 using MetroWindowAndControls.Options;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
-using System.Linq;
 
 namespace MetroWindowAndControls
 {
@@ -18,6 +18,7 @@ namespace MetroWindowAndControls
 		/// <param name="moduleCatalog">IModuleCatalog。</param>
 		protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
 		{
+			moduleCatalog.AddModule<HalationGhostMessageBoxServiceModule>();
 			moduleCatalog.AddModule<StartUpViewModule>();
 			moduleCatalog.AddModule<ChildViewsModule>();
 			moduleCatalog.AddModule<OptionViewsModule>();
@@ -50,6 +51,7 @@ namespace MetroWindowAndControls
 		protected override void RegisterTypes(IContainerRegistry containerRegistry)
 		{
 			containerRegistry.RegisterSingleton<IMainWindowService, MainWindowService>();
+			containerRegistry.RegisterDialogWindow<MetroDialogWindow>();
 		}
 	}
 }

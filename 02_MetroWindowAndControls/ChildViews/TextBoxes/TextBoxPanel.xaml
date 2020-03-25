@@ -76,6 +76,9 @@
 						 md:HintAssist.FloatingScale="{Binding FloatingScale.Value, Mode=OneWay}"
 						 md:HintAssist.HintOpacity="{Binding HintOpacity.Value, Mode=OneWay}"
 						 md:HintAssist.FloatingOffset="{Binding FloatingOffset.Value, Mode=OneWay}"/>
+				<TextBox Margin="0, 35, 0, 0"
+						 TextWrapping="Wrap"
+						 Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"/>
 			</StackPanel>
 		</Grid>
 	</Grid>

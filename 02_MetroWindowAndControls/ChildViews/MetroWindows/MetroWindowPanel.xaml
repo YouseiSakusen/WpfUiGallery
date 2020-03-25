@@ -11,20 +11,6 @@
 			 mc:Ignorable="d"
 			 d:DesignHeight="600" d:DesignWidth="800"
 			 prism:ViewModelLocator.AutoWireViewModel="True">
-	<UserControl.Resources>
-		<DataTemplate x:Key="BrushItem" DataType="{x:Type local:BrushItemViewModel}">
-			<StackPanel Orientation="Horizontal"
-						Margin="3, 0, 0, 0">
-				<Ellipse Width="12" Height="12"
-						 VerticalAlignment="Center"
-						 Stroke="Black"
-						 Fill="{Binding BrushColor.Value}" />
-				<TextBlock VerticalAlignment="Center"
-						   Margin="5, 0, 0, 0"
-						   Text="{Binding ItemText.Value}" />
-			</StackPanel>
-		</DataTemplate>
-	</UserControl.Resources>
 	<Grid>
 		<Grid Panel.ZIndex="0">
 			<Grid.RowDefinitions>
@@ -49,7 +35,7 @@
 								  VerticalAlignment="Bottom"
 								  Width="150"
 								  Height="150"
-								  Kind="{x:Static icon:PackIconMaterialKind.WindowMaximize}" >
+								  Kind="{x:Static icon:PackIconMaterialKind.WindowMaximize}">
 				<icon:PackIconControl.Foreground>
 					<LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
 						<GradientStop Color="{StaticResource Primary500}"/>
@@ -143,6 +129,16 @@
 					</StackPanel>
 				</Grid>
 			</GroupBox>
+			<Grid Grid.Row="1">
+				<Button Margin="0, 0, 30, 30" HorizontalAlignment="Right"
+						VerticalAlignment="Bottom"
+						ToolTip="Windowを閉じる"
+						Command="{Binding WindowClose}"
+						Style="{StaticResource MaterialDesignFloatingActionLightButton}">
+					<icon:PackIconControl Height="24" Width="24"
+										  Kind="{x:Static icon:PackIconBoxIconsKind.RegularWindowClose}" />
+				</Button>
+			</Grid>
 			<GroupBox Grid.Row="1"
 					  Header="MetroWindow Title Bar Settings"
 					  Margin="30, 10, 30, 25"

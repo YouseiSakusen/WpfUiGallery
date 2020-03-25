@@ -42,6 +42,8 @@ namespace MetroWindowAndControls.MetroWindows
 
 		public ReactivePropertySlim<bool> ShowIconOnTitleBar { get; set; }
 
+		public ReactiveCommand WindowClose { get; }
+
 		private IMainWindowService mainWindowService = null;
 
 		public MetroWindowPanelViewModel(IMainWindowService mainWindow)
@@ -88,6 +90,10 @@ namespace MetroWindowAndControls.MetroWindows
 			this.IsEnableMinEnable = new[] { this.mainWindowService.ShowTitleBar, this.mainWindowService.ShowMinButton }
 				.CombineLatestValuesAreAllTrue()
 				.ToReadOnlyReactivePropertySlim()
+				.AddTo(this.disposable);
+
+			this.WindowClose = new ReactiveCommand()
+				.WithSubscribe(() => this.mainWindowService.WindowCloseRequest.Value = true)
 				.AddTo(this.disposable);
 		}
 	}

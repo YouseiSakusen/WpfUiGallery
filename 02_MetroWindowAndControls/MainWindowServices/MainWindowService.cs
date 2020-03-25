@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Reactive.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using HalationGhost;
 using MahApps.Metro.Controls;
@@ -12,43 +14,49 @@ namespace MetroWindowAndControls
 	/// </summary>
 	public class MainWindowService : BindableModelBase, IMainWindowService
 	{
-		public ReactivePropertySlim<bool> ShowIconOnTitleBar { get; set; }
+		public ReactivePropertySlim<bool> WindowCloseRequest { get; }
 
-		public ReactivePropertySlim<bool> WindowTransitionsEnabled { get; set; }
+		public ReactivePropertySlim<bool> ShowIconOnTitleBar { get; }
 
-		public ReactivePropertySlim<CharacterCasing> TitleCharacterCasing { get; set; }
+		public ReactivePropertySlim<bool> WindowTransitionsEnabled { get; }
 
-		public ReactivePropertySlim<HorizontalAlignment> TitleAlignment { get; set; }
+		public ReactivePropertySlim<CharacterCasing> TitleCharacterCasing { get; }
 
-		public ReactivePropertySlim<bool> ShowTitleBar { get; set; }
+		public ReactivePropertySlim<HorizontalAlignment> TitleAlignment { get; }
 
-		public ReactivePropertySlim<bool> ShowSystemMenuOnRightClick { get; set; }
+		public ReactivePropertySlim<bool> ShowTitleBar { get; }
 
-		public ReactivePropertySlim<bool> ShowCloseButton { get; set; }
+		public ReactivePropertySlim<bool> ShowSystemMenuOnRightClick { get; }
 
-		public ReactivePropertySlim<bool> ShowMaxRestoreButton { get; set; }
+		public ReactivePropertySlim<bool> ShowCloseButton { get; }
 
-		public ReactivePropertySlim<bool> ShowMinButton { get; set; }
+		public ReactivePropertySlim<bool> ShowMaxRestoreButton { get; }
 
-		public ReactivePropertySlim<bool> IsWindowDraggable { get; set; }
+		public ReactivePropertySlim<bool> ShowMinButton { get; }
 
-		public ReactivePropertySlim<bool> IsMinButtonEnabled { get; set; }
+		public ReactivePropertySlim<bool> IsWindowDraggable { get; }
 
-		public ReactivePropertySlim<bool> IsMaxRestoreButtonEnabled { get; set; }
+		public ReactivePropertySlim<bool> IsMinButtonEnabled { get; }
 
-		public ReactivePropertySlim<bool> IsCloseButtonEnabled { get; set; }
+		public ReactivePropertySlim<bool> IsMaxRestoreButtonEnabled { get; }
 
-		public ReactivePropertySlim<bool> IgnoreTaskbarOnMaximize { get; set; }
+		public ReactivePropertySlim<bool> IsCloseButtonEnabled { get; }
+
+		public ReactivePropertySlim<bool> IgnoreTaskbarOnMaximize { get; }
+
+		public ReadOnlyReactivePropertySlim<bool> CloseEnabled { get; }
 
 		/// <summary>HamburgerMenuのDisplayModeを取得・設定します。</summary>
-		public ReactivePropertySlim<SplitViewDisplayMode> HamburgerMenuDisplayMode { get; set; }
+		public ReactivePropertySlim<SplitViewDisplayMode> HamburgerMenuDisplayMode { get; }
 
 		/// <summary>HamburgerMenuのIsPaneOpenを取得・設定します。</summary>
-		public ReactivePropertySlim<bool> IsHamburgerMenuPanelOpened { get; set; }
+		public ReactivePropertySlim<bool> IsHamburgerMenuPanelOpened { get; }
 
 		/// <summary>TransitioningContentControlのTransitionを取得・設定します。</summary>
-		public ReactivePropertySlim<TransitionType> ContentControlTransition { get; set; }
-		
+		public ReactivePropertySlim<TransitionType> ContentControlTransition { get; }
+
+		public ReactivePropertySlim<bool> CanClose { get; }
+
 		/// <summary>
 		/// コンストラクタ。
 		/// </summary>
@@ -81,6 +89,48 @@ namespace MetroWindowAndControls
 			this.WindowTransitionsEnabled = new ReactivePropertySlim<bool>(true)
 				.AddTo(this.Disposable);
 			this.ShowIconOnTitleBar = new ReactivePropertySlim<bool>(false)
+				.AddTo(this.Disposable);
+			this.WindowCloseRequest = new ReactivePropertySlim<bool>(false)
+				.AddTo(this.Disposable);
+
+			this.CanClose = new ReactivePropertySlim<bool>(true)
+				.AddTo(this.Disposable);
+
+			this.CloseEnabled = this.CanClose
+				.ToReadOnlyReactivePropertySlim()
+				.AddTo(this.Disposable);
+
+			this.IsCloseButtonEnabled.Subscribe(v =>
+				{
+					this.CanClose.Value = v &&
+						this.ShowCloseButton.Value &&
+						this.ShowTitleBar.Value;
+				})
+				.AddTo(this.Disposable);
+			this.ShowTitleBar.Subscribe(v =>
+				{
+					this.CanClose.Value = v &&
+						this.ShowCloseButton.Value &&
+						this.IsCloseButtonEnabled.Value;
+				})
+				.AddTo(this.Disposable);
+			this.ShowCloseButton.Subscribe(v =>
+				{
+					this.CanClose.Value = v &&
+						this.ShowTitleBar.Value &&
+						this.IsCloseButtonEnabled.Value;
+				})
+				.AddTo(this.Disposable);
+			this.ShowSystemMenuOnRightClick.Subscribe(v =>
+			{
+				this.CanClose.Value = v &&
+					this.ShowTitleBar.Value &&
+					this.IsCloseButtonEnabled.Value &&
+					this.ShowCloseButton.Value;
+			});
+
+			this.WindowCloseRequest.Where(v => v == true)
+				.Subscribe(v => this.CanClose.Value = true)
 				.AddTo(this.Disposable);
 
 			this.HamburgerMenuDisplayMode = new ReactivePropertySlim<SplitViewDisplayMode>(SplitViewDisplayMode.CompactOverlay)

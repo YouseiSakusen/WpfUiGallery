@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using CommonServiceLocator;
 using HalationGhost.WinApps;
+using HalationGhost.WinApps.Services.MessageBoxes;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using MetroWindowAndControls.Menus;
+using Prism.Ioc;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
@@ -16,10 +21,6 @@ namespace MetroWindowAndControls
 	public class MainWindowViewModel : HalationGhostViewModelBase
 	{
 		#region プロパティ
-
-		public ReadOnlyReactivePropertySlim<bool> IsSystemMenuVisible { get; }
-
-		public ReadOnlyReactivePropertySlim<bool> CanClose { get; }
 
 		public ReadOnlyReactivePropertySlim<bool> ShowIconOnTitleBar { get; }
 
@@ -49,6 +50,14 @@ namespace MetroWindowAndControls
 
 		public ReadOnlyReactivePropertySlim<CharacterCasing> TitleCharacterCasing { get; }
 
+		public ReadOnlyReactivePropertySlim<bool> CanClose { get; }
+
+		public ReadOnlyReactivePropertySlim<bool> CanMaxmize { get; }
+
+		public ReadOnlyReactivePropertySlim<bool> CanMinimize { get; }
+
+		public ReadOnlyReactivePropertySlim<bool> RequestClose { get; }
+
 		/// <summary>TransitioningContentControlのTransitionを取得・設定します。</summary>
 		public ReadOnlyReactivePropertySlim<TransitionType> ContentControlTransition { get; }
 
@@ -59,16 +68,16 @@ namespace MetroWindowAndControls
 		public ReadOnlyReactivePropertySlim<SplitViewDisplayMode> HamburgerMenuDisplayMode { get; }
 
 		/// <summary>HamburgerMenuで選択しているメニュー項目を取得・設定します。</summary>
-		public ReactivePropertySlim<MetroWindowAndControlsViewModel> SelectedMenu { get; set; }
+		public ReactivePropertySlim<MetroWindowAndControlsViewModel> SelectedMenu { get; }
 
 		/// <summary>HamburgerMenuで選択しているメニュー項目のインデックスを取得・設定します。</summary>
-		public ReactivePropertySlim<int> SelectedMenuIndex { get; set; }
+		public ReactivePropertySlim<int> SelectedMenuIndex { get; }
 
 		/// <summary>HamburgerMenuで選択しているオプションメニュー項目を取得・設定します。</summary>
-		public ReactivePropertySlim<MetroWindowAndControlsViewModel> SelectedOption { get; set; }
+		public ReactivePropertySlim<MetroWindowAndControlsViewModel> SelectedOption { get; }
 
 		/// <summary>HamburgerMenuで選択しているオプションメニュー項目のインデックスを取得・設定します。</summary>
-		public ReactivePropertySlim<int> SelectedOptionIndex { get; set; }
+		public ReactivePropertySlim<int> SelectedOptionIndex { get; }
 
 		/// <summary>HamburgerMenuのメニュー項目を取得します。</summary>
 		public ObservableCollection<MetroWindowAndControlsViewModel> MenuItems { get; } = new ObservableCollection<MetroWindowAndControlsViewModel>();
@@ -92,6 +101,8 @@ namespace MetroWindowAndControls
 		/// <summary>ContentRenderedイベントハンドラ。</summary>
 		public ReactiveCommand ContentRendered { get; }
 
+		public ReactiveCommand CloseCancel { get; }
+
 		/// <summary>HamburgerMenuのメニュー項目選択通知イベントハンドラ。</summary>
 		/// <param name="item">選択したメニュー項目を表すHamburgerMenuItemViewModel。</param>
 		private void onSelectedMenu(MetroWindowAndControlsViewModel item)
@@ -113,17 +124,26 @@ namespace MetroWindowAndControls
 			this.regionManager.RequestNavigate("ContentRegion", "StartUpPanel");
 		}
 
+		private void onCloseCancel()
+		{
+			this.mainWindowService.CanClose.Value = this.dialogService.ShowConfirmationMessage("Windowを閉じる？") == ButtonResult.Yes;
+			this.mainWindowService.WindowCloseRequest.Value = false;
+		}
+
 		#region コンストラクタ
 
 		/// <summary>MainWindoサービスを表します。</summary>
 		private IMainWindowService mainWindowService = null;
+		/// <summary>Dialogサービスを表します。</summary>
+		private IDialogService dialogService = null;
 
 		/// <summary>デフォルトコンストラクタ。</summary>
 		/// <param name="regionMan">IRegionManager。</param>
 		/// <param name="winService">IMainWindowService。</param>
-		public MainWindowViewModel(IRegionManager regionMan, IMainWindowService winService) : base(regionMan)
+		public MainWindowViewModel(IRegionManager regionMan, IMainWindowService winService, IDialogService dlgService) : base(regionMan)
 		{
 			this.mainWindowService = winService;
+			this.dialogService = dlgService;
 
 			this.IgnoreTaskbarOnMaximize = this.mainWindowService.IgnoreTaskbarOnMaximize
 				.ToReadOnlyReactivePropertySlim()
@@ -168,22 +188,30 @@ namespace MetroWindowAndControls
 				.ToReadOnlyReactivePropertySlim()
 				.AddTo(this.disposable);
 
-			this.CanClose = new[] { this.mainWindowService.ShowCloseButton, this.mainWindowService.IsCloseButtonEnabled }
+			this.CanMaxmize = new[]
+				{
+					this.mainWindowService.ShowMaxRestoreButton,
+					this.mainWindowService.IsMaxRestoreButtonEnabled
+				}
 				.CombineLatestValuesAreAllTrue()
 				.ToReadOnlyReactivePropertySlim()
 				.AddTo(this.disposable);
-			this.IsSystemMenuVisible = new[]
-				{ this.mainWindowService.ShowCloseButton,
-				  this.mainWindowService.IsCloseButtonEnabled,
-				  this.mainWindowService.ShowMaxRestoreButton,
-				  this.mainWindowService.IsMaxRestoreButtonEnabled,
-				  this.mainWindowService.ShowMinButton,
-				  this.mainWindowService.IsMinButtonEnabled
+			this.CanMinimize = new[]
+				{
+					this.mainWindowService.ShowMinButton,
+					this.mainWindowService.IsMinButtonEnabled
 				}
 				.CombineLatestValuesAreAllTrue()
 				.ToReadOnlyReactivePropertySlim()
 				.AddTo(this.disposable);
 
+			this.CanClose = this.mainWindowService.CloseEnabled
+				.ToReadOnlyReactivePropertySlim()
+				.AddTo(this.disposable);
+			this.RequestClose = this.mainWindowService.WindowCloseRequest
+				.ToReadOnlyReactivePropertySlim()
+				.AddTo(this.disposable);
+				
 			this.initialilzeMenu();
 
 			this.SelectedMenu = new ReactivePropertySlim<MetroWindowAndControlsViewModel>(null)
@@ -212,22 +240,24 @@ namespace MetroWindowAndControls
 			this.ContentRendered = new ReactiveCommand()
 				.WithSubscribe(() => this.regionManager.RequestNavigate("ContentRegion", "StartUpPanel"))
 				.AddTo(this.disposable);
-
 			this.HomeCommand = new ReactiveCommand()
 				.WithSubscribe(() => this.onHome())
+				.AddTo(this.disposable);
+			this.CloseCancel = new ReactiveCommand()
+				.WithSubscribe(() => this.onCloseCancel())
 				.AddTo(this.disposable);
 		}
 
 		/// <summary>HamburgerMenuのメニュー項目を初期化します。</summary>
 		private void initialilzeMenu()
 		{
-			this.MenuItems.Add(new MetroWindowAndControlsViewModel(PackIconMaterialKind.WindowMaximize, "MetroWindow", "MetroWindowPanel"));
-			this.MenuItems.Add(new MetroWindowAndControlsViewModel(PackIconModernKind.InterfaceTextbox, "TextBox", "TextBoxPanel"));
-			this.MenuItems.Add(new MetroWindowAndControlsViewModel(PackIconFontAwesomeKind.CoffeeSolid, "珈琲", "CoffeePanel"));
-			this.MenuItems.Add(new MetroWindowAndControlsViewModel(PackIconFontAwesomeKind.FontAwesomeBrands, "サイコー！", "AwesomePanel"));
+			this.MenuItems.Add(new MetroWindowAndControlsViewModel(PackIconMaterialKind.WindowMaximize, "MetroWindow", "MetroWindowプロパティのデモ", "MetroWindowPanel"));
+			this.MenuItems.Add(new MetroWindowAndControlsViewModel(PackIconModernKind.InterfaceTextbox, "TextBox", string.Empty, "TextBoxPanel"));
+			this.MenuItems.Add(new MetroWindowAndControlsViewModel(PackIconFontAwesomeKind.CoffeeSolid, "珈琲", string.Empty, "CoffeePanel"));
+			this.MenuItems.Add(new MetroWindowAndControlsViewModel(PackIconFontAwesomeKind.FontAwesomeBrands, "サイコー！", string.Empty, "AwesomePanel"));
 
-			this.OptionMenuItems.Add(new MetroWindowAndControlsViewModel(PackIconFontAwesomeKind.CogsSolid, "設定", "SettingPanel"));
-			this.OptionMenuItems.Add(new MetroWindowAndControlsViewModel(PackIconFontAwesomeKind.InfoCircleSolid, "このサンプルアプリについて", "AboutPanel"));
+			this.OptionMenuItems.Add(new MetroWindowAndControlsViewModel(PackIconFontAwesomeKind.CogsSolid, "設定", string.Empty, "SettingPanel"));
+			this.OptionMenuItems.Add(new MetroWindowAndControlsViewModel(PackIconFontAwesomeKind.InfoCircleSolid, "このサンプルアプリについて", string.Empty, "AboutPanel"));
 		}
 
 		#endregion
