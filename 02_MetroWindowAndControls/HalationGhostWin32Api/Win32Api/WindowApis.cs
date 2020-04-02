@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace HalationGhost.Win32Api
 {
+	/// <summary>Win32APIラッパーを表します。</summary>
 	public static class WindowApis
 	{
 		#region DllImports
@@ -21,17 +22,9 @@ namespace HalationGhost.Win32Api
 
 		#endregion
 
-		public static void ChangeSystemMenuVisible(IntPtr hWnd, bool visible)
-		{
-			var style = WindowApis.GetWindowLong(hWnd, ApiConstants.GWL_STYLE);
-			if (visible)
-				style |= ApiConstants.WS_SYSMENU;
-			else
-				style &= ~ApiConstants.WS_SYSMENU;
-
-			WindowApis.SetWindowLong(hWnd, ApiConstants.GWL_STYLE, style);
-		}
-
+		/// <summary>WindowのStyleを変更します。</summary>
+		/// <param name="hWnd">ウィンドウハンドルを表すIntPtr。</param>
+		/// <param name="styleFlag">Windowに設定するStyleを表すMetroWindowStyle列挙型フラグ。</param>
 		public static void ChangeWindowStyle(IntPtr hWnd, MetroWindowStyle styleFlag)
 		{
 			var style = WindowApis.GetWindowLong(hWnd, ApiConstants.GWL_STYLE);
@@ -54,6 +47,10 @@ namespace HalationGhost.Win32Api
 			WindowApis.SetWindowLong(hWnd, ApiConstants.GWL_STYLE, style);
 		}
 
+		/// <summary>システムメニュー項目の有効/無効を設定します。</summary>
+		/// <param name="hWnd">対象のウィンドウハンドルを表すIntPtr。</param>
+		/// <param name="menuItem">システムメニュー項目を表すSystemMenuItem列挙型の内の1つ</param>
+		/// <param name="isEnabled">設定する有効状態を表すbool。</param>
 		public static void ChangeSystemMenuItemEnabled(IntPtr hWnd, SystemMenuItem menuItem, bool isEnabled)
 		{
 			var hMenu = WindowApis.GetSystemMenu(hWnd, false);

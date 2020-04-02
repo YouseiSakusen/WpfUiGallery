@@ -126,8 +126,8 @@ namespace MetroWindowAndControls
 
 		private void onCloseCancel()
 		{
-			this.mainWindowService.CanClose.Value = this.dialogService.ShowConfirmationMessage("Windowを閉じる？") == ButtonResult.Yes;
-			this.mainWindowService.WindowCloseRequest.Value = false;
+			//this.mainWindowService.CanClose.Value = this.dialogService.ShowConfirmationMessage("Windowを閉じる？") == ButtonResult.Yes;
+			//this.mainWindowService.WindowCloseRequest.Value = false;
 		}
 
 		#region コンストラクタ

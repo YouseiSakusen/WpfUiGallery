@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HalationGhost.Win32Api
 {
+	/// <summary>Win32API定数を表します。</summary>
 	internal class ApiConstants
 	{
 		//--- GetWindowLong

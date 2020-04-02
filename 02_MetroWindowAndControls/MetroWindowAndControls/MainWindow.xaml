@@ -14,6 +14,7 @@
 				   WindowStartupLocation="CenterScreen"
 				   GlowBrush="Black" BorderThickness="0"
 				   Icon="sample-app.ico"
+				   Name="AppMainWindow"
 				   TitleCharacterCasing="{Binding TitleCharacterCasing.Value, Mode=OneWay}"
 				   IgnoreTaskbarOnMaximize="{Binding IgnoreTaskbarOnMaximize.Value, Mode=OneWay}"
 				   IsCloseButtonEnabled="{Binding IsCloseButtonEnabled.Value, Mode=OneWay}"
@@ -30,8 +31,15 @@
 				   WindowTransitionsEnabled="{Binding WindowTransitionsEnabled.Value, Mode=OneWay}"
 				   ShowIconOnTitleBar="{Binding ShowIconOnTitleBar.Value, Mode=OneWay}">
 	<bh:Interaction.Behaviors>
-		<vmBase:WindowControlBehavior RequestClose="{Binding RequestClose.Value, Mode=OneWay}"
+		<!--<vmBase:WindowControlBehavior RequestClose="{Binding RequestClose.Value, Mode=OneWay}"
 									  CanClose="{Binding CanClose.Value, Mode=OneWay}"
+									  CanMaxmize="{Binding CanMaxmize.Value, Mode=OneWay}"
+									  CanMinimize="{Binding CanMinimize.Value, Mode=OneWay}"
+									  CanMove="{Binding IsWindowDraggable.Value, Mode=OneWay}"
+									  SystemMenuVisible="{Binding ShowSystemMenuOnRightClick.Value, Mode=OneWay}"
+									  CloseCanceledCallback="{Binding CloseCancel, Mode=OneWay}"/>-->
+		<vmBase:WindowControlBehavior RequestClose="{Binding RequestClose.Value, Mode=OneWay}"
+									  CanClose="{Binding ElementName=AppMainWindow, Path=ShowCloseButton, Mode=OneWay}"
 									  CanMaxmize="{Binding CanMaxmize.Value, Mode=OneWay}"
 									  CanMinimize="{Binding CanMinimize.Value, Mode=OneWay}"
 									  CanMove="{Binding IsWindowDraggable.Value, Mode=OneWay}"

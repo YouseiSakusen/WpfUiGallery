@@ -123,9 +123,7 @@ namespace HalationGhost.WinApps
 			this.AssociatedObject.Closing += (sender, e) =>
 			{
 				if ((this.CloseCanceledCallback != null) && (this.CloseCanceledCallback.CanExecute(null)))
-				{
 					this.CloseCanceledCallback.Execute(null);
-				}
 
 				e.Cancel = !this.CanClose;
 			};
