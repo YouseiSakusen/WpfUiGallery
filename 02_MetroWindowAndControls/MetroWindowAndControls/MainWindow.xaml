@@ -31,20 +31,20 @@
 				   WindowTransitionsEnabled="{Binding WindowTransitionsEnabled.Value, Mode=OneWay}"
 				   ShowIconOnTitleBar="{Binding ShowIconOnTitleBar.Value, Mode=OneWay}">
 	<bh:Interaction.Behaviors>
-		<!--<vmBase:WindowControlBehavior RequestClose="{Binding RequestClose.Value, Mode=OneWay}"
+		<vmBase:WindowControlBehavior RequestClose="{Binding RequestClose.Value, Mode=OneWay}"
 									  CanClose="{Binding CanClose.Value, Mode=OneWay}"
 									  CanMaxmize="{Binding CanMaxmize.Value, Mode=OneWay}"
 									  CanMinimize="{Binding CanMinimize.Value, Mode=OneWay}"
 									  CanMove="{Binding IsWindowDraggable.Value, Mode=OneWay}"
 									  SystemMenuVisible="{Binding ShowSystemMenuOnRightClick.Value, Mode=OneWay}"
-									  CloseCanceledCallback="{Binding CloseCancel, Mode=OneWay}"/>-->
-		<vmBase:WindowControlBehavior RequestClose="{Binding RequestClose.Value, Mode=OneWay}"
+									  CloseCanceledCallback="{Binding CloseCancel, Mode=OneWay}"/>
+		<!--<vmBase:WindowControlBehavior RequestClose="{Binding RequestClose.Value, Mode=OneWay}"
 									  CanClose="{Binding ElementName=AppMainWindow, Path=ShowCloseButton, Mode=OneWay}"
 									  CanMaxmize="{Binding CanMaxmize.Value, Mode=OneWay}"
 									  CanMinimize="{Binding CanMinimize.Value, Mode=OneWay}"
 									  CanMove="{Binding IsWindowDraggable.Value, Mode=OneWay}"
 									  SystemMenuVisible="{Binding ShowSystemMenuOnRightClick.Value, Mode=OneWay}"
-									  CloseCanceledCallback="{Binding CloseCancel, Mode=OneWay}"/>
+									  CloseCanceledCallback="{Binding CloseCancel, Mode=OneWay}"/>-->
 	</bh:Interaction.Behaviors>
 	<bh:Interaction.Triggers>
 		<bh:EventTrigger EventName="ContentRendered">
@@ -66,8 +66,16 @@
 			</StackPanel>
 		</DataTemplate>
 	</Window.Resources>
+	<metro:MetroWindow.LeftWindowCommands>
+		<metro:WindowCommands ShowLastSeparator="False">
+			<Button Content="{iconPacks:FontAwesome Kind=GithubBrands, Width=24, Height=24}"
+					Command="{Binding GoGitHub}"
+					ToolTip="GitHubリポジトリを表示"/>
+			<TextBox Width="100"/>
+		</metro:WindowCommands>
+	</metro:MetroWindow.LeftWindowCommands>
 	<metro:MetroWindow.RightWindowCommands>
-		<metro:WindowCommands>
+		<metro:WindowCommands ShowLastSeparator="False">
 			<Button Content="{iconPacks:FontAwesome Kind=HomeSolid, Width=24, Height=24}"
 					Command="{Binding HomeCommand}"
 					ToolTip="StartUp Viewを表示"/>

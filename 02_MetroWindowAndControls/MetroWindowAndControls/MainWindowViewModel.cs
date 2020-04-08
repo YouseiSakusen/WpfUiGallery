@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using CommonServiceLocator;
 using HalationGhost.WinApps;
-using HalationGhost.WinApps.Services.MessageBoxes;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using MetroWindowAndControls.Menus;
-using Prism.Ioc;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using Reactive.Bindings;
@@ -95,6 +93,8 @@ namespace MetroWindowAndControls
 
 		#endregion
 
+		public ReactiveCommand GoGitHub { get; }
+
 		/// <summary>タイトルバー上のHomeボタンのCommand。</summary>
 		public ReactiveCommand HomeCommand { get; }
 
@@ -122,6 +122,12 @@ namespace MetroWindowAndControls
 			this.SelectedOptionIndex.Value = -1;
 			this.mainWindowService.IsHamburgerMenuPanelOpened.Value = false;
 			this.regionManager.RequestNavigate("ContentRegion", "StartUpPanel");
+		}
+
+		private void onGoGitHub()
+		{
+			Process.Start(new ProcessStartInfo("cmd", $"/c start https://github.com/YouseiSakusen/WpfUiGallery") { CreateNoWindow = true });
+			//Process.Start("https://github.com/YouseiSakusen/WpfUiGallery");
 		}
 
 		private void onCloseCancel()
@@ -242,6 +248,9 @@ namespace MetroWindowAndControls
 				.AddTo(this.disposable);
 			this.HomeCommand = new ReactiveCommand()
 				.WithSubscribe(() => this.onHome())
+				.AddTo(this.disposable);
+			this.GoGitHub = new ReactiveCommand()
+				.WithSubscribe(() => this.onGoGitHub())
 				.AddTo(this.disposable);
 			this.CloseCancel = new ReactiveCommand()
 				.WithSubscribe(() => this.onCloseCancel())
