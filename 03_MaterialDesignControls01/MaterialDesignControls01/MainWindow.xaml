@@ -1,0 +1,115 @@
+﻿<metro:MetroWindow x:Class="MaterialDesignControls.MainWindow"
+				   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+				   xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
+				   xmlns:prism="http://prismlibrary.com/"
+				   xmlns:rp="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.WPF"
+				   xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+				   xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+				   xmlns:vmBase="clr-namespace:HalationGhost.WinApps;assembly=HalationGhostWpfViewModels"
+				   xmlns:mns="clr-namespace:MaterialDesignControls.Menus"
+				   prism:ViewModelLocator.AutoWireViewModel="True"
+				   Title="{Binding Title}" Height="600" Width="800"
+				   WindowStartupLocation="CenterScreen"
+				   GlowBrush="Black" BorderThickness="0"
+				   Icon="sample-app.ico"
+				   Name="AppMainWindow"
+				   TitleCharacterCasing="{Binding TitleCharacterCasing.Value, Mode=OneWay}"
+				   IgnoreTaskbarOnMaximize="{Binding IgnoreTaskbarOnMaximize.Value, Mode=OneWay}"
+				   IsCloseButtonEnabled="{Binding IsCloseButtonEnabled.Value, Mode=OneWay}"
+				   IsMaxRestoreButtonEnabled="{Binding IsMaxRestoreButtonEnabled.Value, Mode=OneWay}"
+				   IsMinButtonEnabled="{Binding IsMinButtonEnabled.Value, Mode=OneWay}"
+				   IsWindowDraggable="{Binding IsWindowDraggable.Value, Mode=OneWay}"
+				   ShowCloseButton="{Binding ShowCloseButton.Value, Mode=OneWay}"
+				   ShowMaxRestoreButton="{Binding ShowMaxRestoreButton.Value, Mode=OneWay}"
+				   ShowMinButton="{Binding ShowMinButton.Value, Mode=OneWay}"
+				   ShowSystemMenuOnRightClick="{Binding ShowSystemMenuOnRightClick.Value, Mode=OneWay}"
+				   ShowTitleBar="{Binding ShowTitleBar.Value, Mode=OneWay}"
+				   TitleAlignment="{Binding TitleAlignment.Value, Mode=OneWay}"
+				   TitleCaps="{Binding TitleCaps.Value, Mode=OneWay}"
+				   WindowTransitionsEnabled="{Binding WindowTransitionsEnabled.Value, Mode=OneWay}"
+				   ShowIconOnTitleBar="{Binding ShowIconOnTitleBar.Value, Mode=OneWay}">
+	<bh:Interaction.Behaviors>
+		<vmBase:WindowControlBehavior RequestClose="{Binding RequestClose.Value, Mode=OneWay}"
+									  CanClose="{Binding CanClose.Value, Mode=OneWay}"
+									  CanMaxmize="{Binding CanMaxmize.Value, Mode=OneWay}"
+									  CanMinimize="{Binding CanMinimize.Value, Mode=OneWay}"
+									  CanMove="{Binding IsWindowDraggable.Value, Mode=OneWay}"
+									  SystemMenuVisible="{Binding ShowSystemMenuOnRightClick.Value, Mode=OneWay}"
+									  CloseCanceledCallback="{Binding CloseCancel, Mode=OneWay}"/>
+		<!--<vmBase:WindowControlBehavior RequestClose="{Binding RequestClose.Value, Mode=OneWay}"
+									  CanClose="{Binding ElementName=AppMainWindow, Path=ShowCloseButton, Mode=OneWay}"
+									  CanMaxmize="{Binding CanMaxmize.Value, Mode=OneWay}"
+									  CanMinimize="{Binding CanMinimize.Value, Mode=OneWay}"
+									  CanMove="{Binding IsWindowDraggable.Value, Mode=OneWay}"
+									  SystemMenuVisible="{Binding ShowSystemMenuOnRightClick.Value, Mode=OneWay}"
+									  CloseCanceledCallback="{Binding CloseCancel, Mode=OneWay}"/>-->
+	</bh:Interaction.Behaviors>
+	<bh:Interaction.Triggers>
+		<bh:EventTrigger EventName="ContentRendered">
+			<rp:EventToReactiveCommand Command="{Binding ContentRendered}" />
+		</bh:EventTrigger>
+	</bh:Interaction.Triggers>
+	<Window.Resources>
+		<DataTemplate x:Key="MenuData" DataType="{x:Type mns:MetroWindowAndControlsViewModel}">
+			<StackPanel Orientation="Horizontal"
+						IsEnabled="{Binding IsEnabled.Value, Mode=TwoWay}">
+				<iconPacks:PackIconControl Kind="{Binding IconKind.Value, Mode=OneTime}"
+										   Margin="8, 10, 30, 10"
+										   Focusable="False"
+										   Width="32" Height="32"
+										   ToolTip="{Binding ToolTipText.Value, Mode=OneTime}"/>
+				<TextBlock Text="{Binding MenuText.Value}"
+						   VerticalAlignment="Center"
+						   Style="{StaticResource MaterialDesignHeadline6TextBlock}" />
+			</StackPanel>
+		</DataTemplate>
+	</Window.Resources>
+	<!--<metro:MetroWindow.LeftWindowCommands>
+		<metro:WindowCommands ShowLastSeparator="False">
+			<Button Content="{iconPacks:FontAwesome Kind=GithubBrands, Width=24, Height=24}"
+					Command="{Binding GoGitHub}"
+					ToolTip="GitHubリポジトリを表示"/>
+			<TextBox Width="100"/>
+		</metro:WindowCommands>
+	</metro:MetroWindow.LeftWindowCommands>-->
+	<metro:MetroWindow.RightWindowCommands>
+		<metro:WindowCommands ShowLastSeparator="False">
+			<Button Content="{iconPacks:FontAwesome Kind=HomeSolid, Width=24, Height=24}"
+					Command="{Binding HomeCommand}"
+					ToolTip="StartUp Viewを表示"/>
+		</metro:WindowCommands>
+	</metro:MetroWindow.RightWindowCommands>
+	<metro:HamburgerMenu Grid.Column="0"
+						 ItemTemplate="{StaticResource MenuData}"
+						 OptionsItemTemplate="{StaticResource MenuData}"
+						 ItemsSource="{Binding MenuItems, Mode=OneTime}"
+						 OptionsItemsSource="{Binding OptionMenuItems, Mode=OneTime}"
+						 PaneBackground="{StaticResource MaterialDesignDarkBackground}"
+						 OpenPaneLength="300"
+						 DisplayMode="{Binding HamburgerMenuDisplayMode.Value, Mode=OneWay}"
+						 IsPaneOpen="{Binding IsHamburgerMenuPanelOpened.Value, Mode=TwoWay}"
+						 SelectedItem="{Binding SelectedMenu.Value, Mode=TwoWay}"
+						 SelectedIndex="{Binding SelectedMenuIndex.Value, Mode=TwoWay}"
+						 SelectedOptionsItem="{Binding SelectedOption.Value, Mode=TwoWay}"
+						 SelectedOptionsIndex="{Binding SelectedOptionIndex.Value, Mode=TwoWay}">
+		<metro:HamburgerMenu.Content>
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="48"/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<md:ColorZone Mode="Dark" Padding="10">
+					<TextBlock Text="MahApps.Metro &amp; Material Design In XAML Toolkit サンプル"
+							   HorizontalAlignment="Center"
+							   Style="{StaticResource MaterialDesignHeadline6TextBlock}" />
+				</md:ColorZone>
+				<metro:TransitioningContentControl x:Name="ContentRegion"
+												   Grid.Row="1"
+												   prism:RegionManager.RegionName="ContentRegion"
+												   Transition="{Binding ContentControlTransition.Value}"/>
+			</Grid>
+		</metro:HamburgerMenu.Content>
+	</metro:HamburgerMenu>
+</metro:MetroWindow>

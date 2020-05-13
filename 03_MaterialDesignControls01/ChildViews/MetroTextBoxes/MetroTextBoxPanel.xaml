@@ -1,0 +1,201 @@
+﻿<UserControl x:Class="MaterialDesignControls.MetroTextBoxes.MetroTextBoxPanel"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+			 xmlns:prism="http://prismlibrary.com/"
+			 xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+			 xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+			 xmlns:calc="clr-namespace:CalcBinding;assembly=CalcBinding"
+			 mc:Ignorable="d"
+			 d:DesignHeight="600" d:DesignWidth="800"
+			 prism:ViewModelLocator.AutoWireViewModel="True">
+	<Grid>
+		<Grid Panel.ZIndex="0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="100"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0"
+					   Margin="0, 20, 10, 0"
+					   Text="MetroTextBox"
+					   HorizontalAlignment="Right"
+					   VerticalAlignment="Top"
+					   Foreground="{StaticResource PrimaryHueMidBrush}"
+					   Style="{StaticResource MaterialDesignHeadline3TextBlock}" />
+			<icon:PackIconControl Grid.Row="1"
+								  HorizontalAlignment="Right"
+								  VerticalAlignment="Bottom"
+								  Width="150"
+								  Height="150"
+								  Kind="{x:Static icon:PackIconMaterialKind.FormTextbox}" >
+				<icon:PackIconControl.Foreground>
+					<LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
+						<GradientStop Color="{StaticResource Primary500}"/>
+						<GradientStop Color="Transparent"  Offset="1"/>
+					</LinearGradientBrush>
+				</icon:PackIconControl.Foreground>
+			</icon:PackIconControl>
+		</Grid>
+		<Grid Panel.ZIndex="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="0.32*"/>
+				<RowDefinition Height="0.4*"/>
+				<RowDefinition Height="0.28*"/>
+			</Grid.RowDefinitions>
+			<Grid Grid.Row="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="0.33*"/>
+					<ColumnDefinition Width="0.33*"/>
+					<ColumnDefinition Width="0.34*"/>
+				</Grid.ColumnDefinitions>
+				<StackPanel Orientation="Vertical"
+							Grid.Column="0"
+							Margin="10, 20, 10, 0">
+					<metro:MetroHeader Header="MetroTextBox">
+						<TextBox metro:TextBoxHelper.AutoWatermark="{Binding ElementName=tglAutoWatermark, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.Watermark="ウォーターマーク"
+								 metro:TextBoxHelper.ClearTextButton="{Binding ElementName=tglClearTextButton, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.IsWaitingForData="{Binding ElementName=tglIsWaitingForData, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.IsMonitoring="{Binding ElementName=tglIsMonitoring, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.SelectAllOnFocus="{Binding ElementName=tglSelectAll, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.TextButton="{Binding ElementName=tglTextButton, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.UseFloatingWatermark="{Binding ElementName=tglUseFloatingWatermark, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.WatermarkAlignment="Center"
+								 IsEnabled="{Binding ElementName=tglIsEnabled, Path=IsChecked, Mode=OneWay}"
+								 IsReadOnly="{Binding ElementName=tglIsReadOnly, Path=IsChecked, Mode=OneWay}"
+								 Style="{StaticResource MetroTextBox}"
+								 Text="{Binding NormalText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					</metro:MetroHeader>
+					<metro:MetroHeader Margin="0, 28, 0, 0" Header="SearchMetroTextBox">
+						<TextBox metro:TextBoxHelper.AutoWatermark="{Binding ElementName=tglAutoWatermark, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.Watermark="ウォーターマーク"
+								 metro:TextBoxHelper.ClearTextButton="{Binding ElementName=tglClearTextButton, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.IsWaitingForData="{Binding ElementName=tglIsWaitingForData, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.IsMonitoring="{Binding ElementName=tglIsMonitoring, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.SelectAllOnFocus="{Binding ElementName=tglSelectAll, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.TextButton="{calc:Binding ElementName=tglTextButton, Path=!IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.UseFloatingWatermark="{Binding ElementName=tglUseFloatingWatermark, Path=IsChecked, Mode=OneWay}"
+								 IsReadOnly="{Binding ElementName=tglIsReadOnly, Path=IsChecked, Mode=OneWay}"
+								 IsEnabled="{Binding ElementName=tglIsEnabled, Path=IsChecked, Mode=OneWay}"
+								 Style="{StaticResource SearchMetroTextBox}" 
+								 Text="{Binding SearchText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					</metro:MetroHeader>						
+				</StackPanel>
+				<StackPanel Orientation="Vertical"
+							Grid.Column="1"
+							Margin="10, 20, 10, 0">
+					<metro:MetroHeader Header="ButtonCommandMetroTextBox">
+						<TextBox metro:TextBoxHelper.AutoWatermark="{Binding ElementName=tglAutoWatermark, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.Watermark="ウォーターマーク"
+								 metro:TextBoxHelper.ClearTextButton="{Binding ElementName=tglClearTextButton, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.IsWaitingForData="{Binding ElementName=tglIsWaitingForData, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.IsMonitoring="{Binding ElementName=tglIsMonitoring, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.SelectAllOnFocus="{Binding ElementName=tglSelectAll, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.TextButton="{calc:Binding ElementName=tglTextButton, Path=!IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.UseFloatingWatermark="{Binding ElementName=tglUseFloatingWatermark, Path=IsChecked, Mode=OneWay}"
+								 IsReadOnly="{Binding ElementName=tglIsReadOnly, Path=IsChecked, Mode=OneWay}"
+								 IsEnabled="{Binding ElementName=tglIsEnabled, Path=IsChecked, Mode=OneWay}"
+								 Style="{StaticResource ButtonCommandMetroTextBox}"
+								 Text="{Binding ButtonText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					</metro:MetroHeader>
+					<metro:MetroHeader Margin="0, 10, 0, 0" Header="MaterialDesignFloatingHintTextBox">
+						<TextBox metro:TextBoxHelper.IsMonitoring="{Binding ElementName=tglIsMonitoring, Path=IsChecked, Mode=OneWay}"
+								 metro:TextBoxHelper.SelectAllOnFocus="{Binding ElementName=tglSelectAll, Path=IsChecked, Mode=OneWay}"
+								 md:HintAssist.Hint="ウォーターマーク"
+								 md:HintAssist.IsFloating="{calc:Binding ElementName=tglUseFloatingWatermark, Path=!IsChecked, Mode=OneWay}"
+								 md:TextFieldAssist.HasClearButton="{Binding ElementName=tglClearTextButton, Path=IsChecked, Mode=OneWay}"
+								 IsReadOnly="{Binding ElementName=tglIsReadOnly, Path=IsChecked, Mode=OneWay}"
+								 IsEnabled="{Binding ElementName=tglIsEnabled, Path=IsChecked, Mode=OneWay}"
+								 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+								 Text="{Binding MaterialText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					</metro:MetroHeader>
+				</StackPanel>
+				<StackPanel Orientation="Vertical"
+							Grid.Column="2"
+							Margin="10, 20, 0, 0">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Width="80" Text="IsEnabled" />
+						<ToggleButton Name="tglIsEnabled"
+									  Margin="10, 0, 0, 0"
+									  IsChecked="True"/>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal"
+								Margin="0, 60, 0, 0">
+						<TextBlock Width="80" Text="IsReadOnly" />
+						<ToggleButton Name="tglIsReadOnly"
+									  Margin="10, 0, 0, 0"
+									  IsChecked="False"/>
+					</StackPanel>
+				</StackPanel>
+			</Grid>
+			<GroupBox Grid.Row="1"
+					  Header="MahApps.Metro.TextBoxHelper"
+					  Margin="10, 0, 10, 20">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="0.33*"/>
+						<ColumnDefinition Width="0.33*"/>
+						<ColumnDefinition Width="0.34*"/>
+					</Grid.ColumnDefinitions>
+					<StackPanel Grid.Column="0"
+								Orientation="Vertical">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="100" Text="AutoWatermark" />
+							<ToggleButton Name="tglAutoWatermark"
+										  Margin="10, 0, 0, 0"
+										  IsChecked="False"/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									Margin="0, 15, 0, 0">
+							<TextBlock Width="100" Text="SelectAllOnFocus" />
+							<ToggleButton Name="tglSelectAll"
+										  Margin="10, 0, 0, 0"
+										  IsChecked="False"/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									Margin="0, 15, 0, 0">
+							<TextBlock Width="100" Text="IsMonitoring" />
+							<ToggleButton Name="tglIsMonitoring"
+										  Margin="10, 0, 0, 0"
+										  IsChecked="True" />
+						</StackPanel>
+					</StackPanel>
+					<StackPanel Grid.Column="1"
+								Orientation="Vertical">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="100" Text="ClearTextButton" />
+							<ToggleButton Name="tglClearTextButton"
+										  Margin="10, 0, 0, 0"
+										  IsChecked="False"/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									Margin="0, 15, 0, 0">
+							<TextBlock Width="100" Text="TextButton" />
+							<ToggleButton Name="tglTextButton"
+										  Margin="10, 0, 0, 0"
+										  IsChecked="False"/>
+						</StackPanel>
+					</StackPanel>
+					<StackPanel Grid.Column="2"
+								Orientation="Vertical">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="130" Text="IsWaitingForData" />
+							<ToggleButton Name="tglIsWaitingForData"
+										  Margin="10, 0, 0, 0"
+										  IsChecked="False"/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									Margin="0, 15, 0, 0">
+							<TextBlock Width="130" Text="UseFloatingWatermark" />
+							<ToggleButton Name="tglUseFloatingWatermark"
+										  Margin="10, 0, 0, 0"
+										  IsChecked="False"/>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</GroupBox>
+		</Grid>
+	</Grid>
+</UserControl>
