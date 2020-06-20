@@ -16,3 +16,7 @@ MetroWindow のプロパティは Window の外観しか制御しないので、
 [WPF UI Gallery case: 1-3 ～ Material Design In XAML Toolkit で TextBox ～](https://elf-mission.net/programming/wpf/ui-gallery/case01-03/)で作成した Material Design In XAML Toolkit と MahApps.Metro で TextBox の設定項目を紹介するサンプルアプリ。
 
 Material Design In XAML Toolkit の TextFieldAssist、HintAssist、ValidationAssist、MahApps.Metro の TextBoxHelper 及び [CalcBinding](https://github.com/Alex141/CalcBinding) を使用しています。
+
+
+## 04_MahAppsMDIX_dotNetCore
+[WPF UI Gallery exhibition #1 ～ .NET Core 正式対応版 MahApps.Metro Ver. 2 ～](https://elf-mission.net/programming/wpf/ui-gallery/exhibition01/)で作成した MahApps.Metro の .NET Core 正式対応版の Ver.2.x とMaterial Design In XAML Toolkit を統合して使用する場合の設定用に作成したアプリ。
