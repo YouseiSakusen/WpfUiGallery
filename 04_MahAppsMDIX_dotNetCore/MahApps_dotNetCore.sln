@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MahApps_dotNetCore", "MahApps_dotNetCore\MahApps_dotNetCore.csproj", "{219DC9AE-6D10-4D47-9E53-E1A8FAC9E0CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadableViews", "LoadableViews\LoadableViews.csproj", "{50B29E95-78DE-4195-823A-9B4958A71441}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoadableViews", "LoadableViews\LoadableViews.csproj", "{50B29E95-78DE-4195-823A-9B4958A71441}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module1", "Module1\Module1.csproj", "{3D01B962-6CDF-4F6F-A694-5F44B3E6A139}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{50B29E95-78DE-4195-823A-9B4958A71441}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50B29E95-78DE-4195-823A-9B4958A71441}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50B29E95-78DE-4195-823A-9B4958A71441}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D01B962-6CDF-4F6F-A694-5F44B3E6A139}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D01B962-6CDF-4F6F-A694-5F44B3E6A139}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D01B962-6CDF-4F6F-A694-5F44B3E6A139}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D01B962-6CDF-4F6F-A694-5F44B3E6A139}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
